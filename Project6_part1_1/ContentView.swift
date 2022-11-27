@@ -8,14 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    //ステッパーを使ったアニメーション
+    @State private var animationAmount = 1.0
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        print(animationAmount)
+        return VStack {
+            Stepper("Scale amount", value: $animationAmount.animation(
+                .easeOut(duration: 1)
+                .repeatForever()
+            ),in: 1...10)
+            
+            Spacer()
+            
+            Button("Tap me") {
+                animationAmount += 1
+            }
+            .padding(50)
+            .background(.red)
+            .foregroundColor(.white)
+            .clipShape(Circle())
+            .scaleEffect(animationAmount)
+            
+            Spacer()
         }
-        .padding()
     }
 }
 
