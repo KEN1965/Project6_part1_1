@@ -8,32 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    //ステッパーを使ったアニメーション
-    @State private var animationAmount = 1.0
+    //回転アニメーション
+    @State private var animationAmount = 0.0
     
     var body: some View {
-        print(animationAmount)
-        return VStack {
-            Stepper("Scale amount", value: $animationAmount.animation(
-                .easeOut(duration: 1)
-                .repeatForever()
-            ),in: 1...10)
-            
-            Spacer()
-            
             Button("Tap me") {
-                animationAmount += 1
+                withAnimation(.interpolatingSpring(stiffness: 5, damping: 1)) {
+                    //回転に動きを追加
+                    animationAmount += 360
+                }
             }
             .padding(50)
             .background(.red)
             .foregroundColor(.white)
             .clipShape(Circle())
-            .scaleEffect(animationAmount)
-            
-            Spacer()
-        }
+            .rotation3DEffect(.degrees(animationAmount), axis: (x:0 , y: 1, z: 0))
+            }
     }
-}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
